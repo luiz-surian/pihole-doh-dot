@@ -47,8 +47,8 @@ cp footer.php footer.php.bak
 sed -i 's#<title>Pi-hole#<title>Pi-hole DoH/DoT#g' header.php
 sed -i 's#Pi-<strong>hole</strong>#Pi-<strong>hole</strong> DoH/DoT#g' header.php
 sed -i 's#>Pi-hole<#>Pi-hole DoH/DoT<#g' header.php
-sed -i 's#<strong>Docker Tag</strong># #g' footer.php
-sed -i 's#<a href="<?php echo $dockerReleasesUrl . "/" . $dockerTag; ?>" rel="noopener" target="_blank"><?php echo $dockerTag; ?></a>#<small>lfsurianfilho/pihole-doh-dot moded by <strong>luiz-surian</strong></small><br/>#g' footer.php
+sed -i 's#<li><strong>Docker Tag</strong> <?php echo $dockerTag; ?></li>#<li><small>lfsurianfilho/pihole-doh-dot moded by <strong>luiz-surian</strong></small></li>#g' footer.php
+perl -i -p0e 's#<strong>Docker Tag</strong>\s*<a href=".*></a>\s*</li>#<small>lfsurianfilho/pihole-doh-dot moded by <strong>luiz-surian</strong></small></li><br/>#m' footer.php
 
 # Run file
 echo '#!/usr/bin/with-contenv bash' > /etc/services.d/pihole-doh-dot/run
