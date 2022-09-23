@@ -15,7 +15,7 @@ mkdir -p /etc/stubby \
 
 # Install Cloudflared
 cd /tmp \
-    && wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm \
+    && wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm -q \
     && cp ./cloudflared-linux-arm /usr/local/bin/cloudflared \
     && chmod +x /usr/local/bin/cloudflared
 
@@ -41,14 +41,12 @@ mkdir -p /etc/services.d/pihole-doh-dot
 # Backup original pihole www files
 cd /var/www/html/admin/scripts/pi-hole/php/
 cp header.php header.php.bak
-cp footer.php footer.php.bak
+cp header_authenticated.php header_authenticated.php.bak
 
 # Modify pihole www files by Oijkn
 sed -i 's#<title>Pi-hole#<title>Pi-hole DoH/DoT#g' header.php
-sed -i 's#Pi-<strong>hole</strong>#Pi-<strong>hole</strong> DoH/DoT#g' header.php
-sed -i 's#>Pi-hole<#>Pi-hole DoH/DoT<#g' header.php
-sed -i 's#<li><strong>Docker Tag</strong> <?php echo $dockerTag; ?></li>#<li><small>lfsurianfilho/pihole-doh-dot moded by <strong>luiz-surian</strong></small></li>#g' footer.php
-perl -i -p0e 's#<strong>Docker Tag</strong>\s*<a href=".*></a>\s*</li>#<small>lfsurianfilho/pihole-doh-dot moded by <strong>luiz-surian</strong></small></li><br/>#m' footer.php
+sed -i 's#Pi-<strong>hole</strong>#Pi-<strong>hole</strong> DoH/DoT#g' header_authenticated.php
+sed -i 's#>Pi-hole<#>Pi-hole DoH/DoT<#g' header_authenticated.php
 
 # Run file
 echo '#!/usr/bin/with-contenv bash' > /etc/services.d/pihole-doh-dot/run
